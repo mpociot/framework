@@ -25,6 +25,8 @@ class ViewServiceProvider extends ServiceProvider
         $this->registerBladeCompiler();
 
         $this->registerEngineResolver();
+
+        $this->registerComponentViewCreator();
     }
 
     /**
@@ -89,6 +91,18 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->app->singleton('blade.compiler', function ($app) {
             return new BladeCompiler($app['files'], $app['config']['view.compiled']);
+        });
+    }
+
+    /**
+     * Register the component view creator implementation.
+     *
+     * @return void
+     */
+    public function registerComponentViewCreator()
+    {
+        $this->app->singleton('view.component.creator', function ($app) {
+            return new ComponentViewCreator($app['files'], $app['config']['view.compiled']);
         });
     }
 
